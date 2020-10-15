@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios";
 
-import { setIssues, setPage, setLastPage } from '../redux/actions';
+import { setIssues, setPage, setLastPage, setSearchParams } from '../redux/actions';
 
 import IssuesList from './IssuesList';
 import Filters from './Filters';
@@ -18,33 +18,52 @@ function IssuesListContainer() {
 
     const [loading, setLoading] = useState(false);
 
-    const params = {
-        ...searchParams
-    };
-
     const nextPage = () => {
-        if(page === lastPage - 1) return;
-        dispatch(setPage(page + 1))
+        if (page === lastPage) return;
+        dispatch(setPage(page + 1));
     }
 
     const previousPage = () => {
-        if(page === 1) return;
-        dispatch(setPage(page - 1))
+        if (page === 1) return;
+        dispatch(setPage(page - 1));
+    }
+
+    const onTriggerSearch = ({ labelsSearchValue, sort, sortDirection, stateValue }) => {
+        dispatch(setSearchParams({
+            labels: labelsSearchValue,
+            sort: sort,
+            direction: sortDirection,
+            state: stateValue,
+        }))
     }
 
     const getLastPageNumber = (linkHeader) => {
-        if(!linkHeader) return;
+        if (!linkHeader) return;
+        // if (lastPage === page) return lastPage;
+
         const linkHeaderSplit = linkHeader.split(",");
-        const lastPageLink = new URL(linkHeaderSplit.filter((link) => link.includes('rel="last"'))[0].replace(/(<|>)/g, ""));
-        const lastPage = lastPageLink.searchParams.get("page").replace(/[^0-9.]/g, "");
-        return lastPage;
+        let lastPageLink = linkHeaderSplit.filter((link) => link.includes('rel="last"'))[0];
+
+        if(!lastPageLink) return lastPage;
+
+        lastPageLink = new URL(lastPageLink.replace(/(<|>)/g, ""));
+
+        const newLastPage = lastPageLink.searchParams.get("page").replace(/[^0-9.]/g, "");
+        return newLastPage;
+    }
+
+    const goToPage = (page) => {
+        if (!(page >= 1 && page <= lastPage)) return;
+        dispatch(setPage(page));
     }
 
     useEffect(() => {
         async function getIssues() {
             setLoading(true);
             let response = await axios.get("https://api.github.com/repos/facebook/react/issues", {
-                params
+                params: {
+                    ...searchParams
+                }
             });
             dispatch(setLastPage(getLastPageNumber(response.headers.link)))
             dispatch(setIssues(response.data))
@@ -52,12 +71,12 @@ function IssuesListContainer() {
         }
 
         getIssues();
-    }, [searchParams])
+    }, [searchParams, dispatch])
 
     return (
         <>
-            <Filters />
-            <Pagination page={page} nextPage={nextPage} previousPage={previousPage} />
+            <Filters onTriggerSearch={onTriggerSearch} />
+            <Pagination page={page} nextPage={nextPage} previousPage={previousPage} goToPage={goToPage} lastPage={lastPage} />
             <IssuesList issues={issues} loading={loading} />
         </>
     )

@@ -1,10 +1,6 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux';
 
-import { setSearchParams } from '../redux/actions';
-
-export default function Filters() {
-    const dispatch = useDispatch();
+export default function Filters({ onTriggerSearch }) {
 
     const [labelsSearchValue, setLabelsSearchValue] = useState("");
     const [stateValue, setStateValue] = useState("all");
@@ -32,13 +28,13 @@ export default function Filters() {
         setLabelsSearchValue(event.target.value)
     }
 
-    const onSearchLabelsClick = (event) => {
-        dispatch(setSearchParams({
-            labels: labelsSearchValue,
-            sort: sort,
-            direction: sortDirection,
-            state: stateValue,
-        }))
+    const onSearchClick = () => {
+        onTriggerSearch({
+            labelsSearchValue,
+            sort,
+            sortDirection,
+            stateValue,
+        })
     }
 
     const onStateChange = (event) => {
@@ -67,7 +63,7 @@ export default function Filters() {
                 <span className="icon is-left">
                     <i className="mdi mdi-magnify mdi-18px"></i>
                 </span>
-                <button className="button is-info ml-2" onClick={onSearchLabelsClick}>
+                <button className="button is-info ml-2" onClick={onSearchClick}>
                     Search
                 </button>
             </div>

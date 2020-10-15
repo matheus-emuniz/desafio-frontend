@@ -21,7 +21,7 @@ export default function Issue({ issue, index }) {
                 </p>
             </div>
 
-            <button className="button is-primary" onClick={e => {window.open(issue.html_url)}}>
+            <button className="button is-primary" onClick={e => { window.open(issue.html_url) }}>
                 Open Issue
             </button>
         </div>
