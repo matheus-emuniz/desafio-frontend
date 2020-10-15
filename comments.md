@@ -32,9 +32,6 @@ https://boring-ride-6d7973.netlify.app
 
 * Melhora da modelagem do state (slices???)
 
-* Melhor método de paginação, tanto visualmente quanto lógicamente
+* Melhor método de paginação, tanto visualmente quanto logicamente
 
 * Implementação de testes automatizados
-
-* Menos commits alterando o comments.md ???
-
