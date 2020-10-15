@@ -1,6 +1,8 @@
+# Matheus Eduardo Muniz
+
 # Netlify
 
-[https://boring-ride-6d7973.netlify.app]
+https://boring-ride-6d7973.netlify.app
 
 # Pacotes
 
@@ -21,10 +23,10 @@
 # Dificuldades
 
 * Inicialmente relembrar a API do React, pois no meu emprego não o utilizo, então alguns detalhes foram esquecidos, mas nada demais,
-    consegui rapidamente lembrar das principais features.
+    consegui rapidamente lembrar das principais features e aplicá-las.
 
 * A API do Github "/repos/**/issues", não retorna o número de issues totais do repo, portanto utilizei o header "link" para pegar o link
-    da ultima página que continha o parâmetro "page=*" correto.
+    da ultima página que continha o parâmetro "page=*" correto para fazer a paginação.
 
 # Possíveis melhorias
 
@@ -34,6 +36,5 @@
 
 * Implementação de testes automatizados
 
-
-# Matheus Eduardo Muniz
+* Menos commits alterando o comments.md ???
 
