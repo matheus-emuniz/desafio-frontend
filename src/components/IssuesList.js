@@ -11,9 +11,10 @@ export default function IssuesList({ issues, loading }) {
                             <i className="mdi mdi-loading mdi-spin mdi-48px"></i>
                         </span>
                     </div> :
-                    issues.map((issue, index) => (
-                        <Issue key={issue.id} index={index} issue={issue} />
-                    ))
+                    issues.length > 0 ?
+                        issues.map((issue, index) => (
+                            <Issue key={issue.id} index={index} issue={issue} />
+                        )) : <div className="box">No issues found...</div>
             }
         </>
     )

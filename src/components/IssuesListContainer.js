@@ -49,7 +49,7 @@ function IssuesListContainer() {
         lastPageLink = new URL(lastPageLink.replace(/(<|>)/g, ""));
 
         const newLastPage = lastPageLink.searchParams.get("page").replace(/[^0-9.]/g, "");
-        return newLastPage;
+        return parseInt(newLastPage);
     }
 
     const goToPage = (page) => {
@@ -76,7 +76,7 @@ function IssuesListContainer() {
     return (
         <>
             <Filters onTriggerSearch={onTriggerSearch} />
-            <Pagination page={page} nextPage={nextPage} previousPage={previousPage} goToPage={goToPage} lastPage={lastPage} />
+            <Pagination issuesCount={issues.length} page={page} nextPage={nextPage} previousPage={previousPage} goToPage={goToPage} lastPage={lastPage} />
             <IssuesList issues={issues} loading={loading} />
         </>
     )
